@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { ActivityIndicator, StyleSheet } from "react-native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -16,10 +17,21 @@ import LValidarP from "./pages/Profissionais/LValidarP";
 import ConsultarP from "./pages/consultarp/ConsultarP";
 
 import Draw from "./routes/drawer.routes";
+import { StoreProvider, useStore } from "./services/store";
+import { useAuth } from "./services/auth";
 
 const Stack = createStackNavigator();
 
-function Routes() {
+function Loading() {
+  <ActivityIndicator style={{ flex: 1, color: "#fff" }} />;
+}
+
+const Router = () => {
+  const [store] = useStore();
+
+  if (!store.rehydrated) {
+    <Loading />;
+  }
   return (
     <Stack.Navigator
       screenOptions={{
@@ -34,29 +46,80 @@ function Routes() {
       }}
       initialRouteName="PSYCHO HELP"
     >
-      <Stack.Screen name="Consultar" component={Consultar} />
-      <Stack.Screen
-        name="ValidarProfissional"
-        component={ValidarProfissional}
-      />
-      <Stack.Screen name="ConsultarP" component={ConsultarP} />
-      <Stack.Screen
-        name="ValidarProfissionais"
-        component={ValidarProfissional}
-      />
-      <Stack.Screen name="GProfissionais" component={GProfissionais} />
-      <Stack.Screen name="LConsultarP" component={LConsultarP} />
-      <Stack.Screen name="LValidarP" component={LValidarP} />
-      <Stack.Screen name="GServicos" component={GServicos} />
-      <Stack.Screen name="GServ" component={GServ} />
-      <Stack.Screen name="Opicoes" component={Opicoes} />
-      <Stack.Screen name="CadastrarServiços" component={Cadastrar} />
-      <Stack.Screen name="Recuperar" component={Recuperar} />
-      <Stack.Screen name="PSYCHO HELP" component={Draw} />
+      {store.auth ? (
+        <>
+          <Stack.Screen
+            options={{ title: "Opições" }}
+            name="Opicoes"
+            component={Opicoes}
+            Route
+            isPrivate
+          />
+          <Stack.Screen
+            options={{ title: "Dados do Serviço" }}
+            name="Consultar"
+            component={Consultar}
+          />
+          <Stack.Screen
+            name="ValidarProfissional"
+            component={ValidarProfissional}
+          />
+          <Stack.Screen
+            options={{ title: "Dados do Profissional" }}
+            name="ConsultarP"
+            component={ConsultarP}
+          />
+          <Stack.Screen
+            options={{ title: "Validar Profissionais" }}
+            name="ValidarProfissionais"
+            component={ValidarProfissional}
+          />
+          <Stack.Screen
+            name="GProfissionais"
+            options={{ title: "Gerenciar Profissionais" }}
+            component={GProfissionais}
+            isPrivate
+          />
+          <Stack.Screen
+            options={{ title: "Consultar Profissionais" }}
+            name="LConsultarP"
+            component={LConsultarP}
+            isPrivate
+          />
+          <Stack.Screen
+            options={{ title: "Validar Profissionais" }}
+            name="LValidarP"
+            component={LValidarP}
+            isPrivate
+          />
+          <Stack.Screen
+            options={{ title: "Gerenciar Serviços" }}
+            name="GServicos"
+            component={GServicos}
+            isPrivate
+          />
+          <Stack.Screen
+            options={{ title: "Consultar Serviços" }}
+            name="GServ"
+            component={GServ}
+            isPrivate
+          />
 
-      <Stack.Screen name="Perfil" component={Perfil} />
+          <Stack.Screen
+            options={{ title: "Cadastrar Serviços" }}
+            name="CadastrarServiços"
+            component={Cadastrar}
+            isPrivate
+          />
+          <Stack.Screen name="Recuperar" component={Recuperar} isPrivate />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Perfil" component={Perfil} />
+          <Stack.Screen name="PSYCHO HELP" component={Draw} />
+        </>
+      )}
     </Stack.Navigator>
   );
-}
-
-export default Routes;
+};
+export default Router;

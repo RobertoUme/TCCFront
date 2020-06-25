@@ -23,6 +23,8 @@ export default function Home({ navigation: { navigate } }) {
           servicos.map((servicos) => (
             <TouchableOpacity
               style={styles.Pessoa}
+              key={servicos.profissional.nome}
+              key={servicos.tipo}
               onPress={() =>
                 navigate("Perfil", {
                   nome: servicos.profissional.nome,
@@ -34,7 +36,7 @@ export default function Home({ navigation: { navigate } }) {
               }
             >
               <Serv
-                key={servicos.profissional.nome}
+                key={servicos}
                 nome={servicos.profissional.nome}
                 tipo={servicos.tipo}
               />
@@ -62,7 +64,6 @@ const styles = StyleSheet.create({
   Logo: {
     width: 20,
     height: 20,
-    marginRight: "20px",
     alignSelf: "flex-start",
   },
   text: {

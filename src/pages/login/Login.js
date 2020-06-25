@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-community/async-storage";
+import { useFormik } from "formik";
+import { useAuth } from "../../services/auth";
+import api from "../../services/api";
+
 import {
   TouchableOpacity,
   View,
@@ -10,9 +15,27 @@ import {
 } from "react-native";
 
 export default function Login({ navigation }) {
-  function navegar() {
-    navigation.navigate("Opicoes");
-  }
+  const [state, setState] = useState(false);
+  const [, { login }] = useAuth();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+
+    onSubmit: async (values) => {
+      try {
+        const { data } = await api.post("/sessions", values);
+
+        login(data);
+      } catch (error) {
+        console.log("Preencha todos os campos");
+        setState("Login ou senha inválidos");
+      }
+    },
+  });
+
   return (
     <View style={styles.top}>
       <LinearGradient
@@ -24,18 +47,34 @@ export default function Login({ navigation }) {
           source={require("../../../assets/psycho-help.png")}
         />
         <Text style={styles.text}>PSYCHO HELP</Text>
-        <TextInput style={styles.texti} placeholder="Nome de Usuário"/>
-        <TextInput style={styles.texti} placeholder="Senha" secureTextEntry={true}/>
-        <TouchableOpacity style={styles.botao} onPress={navegar}>
+        
+        <TextInput
+          style={styles.texti}
+          placeholder=" Digite seu email"
+          value={formik.values.email}
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
+          onChangeText={formik.handleChange("email")}
+        />
+        <TextInput
+          style={styles.texti}
+          placeholder=" Digite sua senha"
+          value={formik.values.password}
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
+          onChangeText={formik.handleChange("password")}
+          secureTextEntry={true}
+        />
+
+        {state && <Text style={{color:"red"}}>{state}</Text>}
+
+        <TouchableOpacity style={styles.botao} onPress={formik.handleSubmit}>
           <Text
             style={{
               color: "white",
-              fontSize: 18,
-              fontStyle: "Roboto",
+              fontSize: 22,
               fontWeight: "bold",
             }}
           >
-           LOGIN
+            LOGIN
           </Text>
         </TouchableOpacity>
       </LinearGradient>
@@ -55,28 +94,29 @@ const styles = StyleSheet.create({
   text: {
     color: "#39076A",
     fontSize: 18,
-    //fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
   },
   texti: {
-    height: 40,
+    height: 50,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    backgroundColor:"rgba(255, 255, 255,0.1)"
+
   },
   botao: {
     borderWidth: 0,
     width: "80%",
-    height: "10%",
+    height: 100,
     backgroundColor: "#A13CFE",
     borderRadius: 10,
     alignItems: "center",
     display: "flex",
     marginTop: "10%",
-    padding: 15,
+    padding: 25,
   },
 });

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+
 import {
   TouchableOpacity,
   View,
@@ -37,6 +38,8 @@ export default function CadastrarServico({ navigation }) {
         descricao,
         visualizacao,
       });
+      alert("cadastrado com sucesso");
+      navigation.navigate("GServicos");
     } catch (err) {}
   }
 
@@ -55,7 +58,7 @@ export default function CadastrarServico({ navigation }) {
         <TouchableOpacity style={styles.select}>
           <Picker
             selectedValue={profissional}
-            style={{ height: 45, width: 320 }}
+            style={{ height: 45, width: 320}}
             onValueChange={(profissionalid) => setProfissional(profissionalid)}
           >
             {profissionalid &&
@@ -67,15 +70,18 @@ export default function CadastrarServico({ navigation }) {
 
         <TextInput
           style={styles.texti}
-          placeholder="Tipo do serviço"
+          placeholder="Tipo do serviço:"
           onChangeText={(tipo) => setTipo(tipo)}
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
         />
         <TextInput
           style={styles.textim}
           multiline
           numberOfLines={4}
           onChangeText={(descricao) => setDescricao(descricao)}
-          placeholder="Descrição"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
+          placeholder="Descrição:"
+          textAlignVertical={"top"}
         />
 
         <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
@@ -107,7 +113,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#39076A",
     fontSize: 18,
-    //fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    padding: 10,
   },
   textim: {
     height: 120,
@@ -127,6 +133,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    padding: 10,
   },
   botao: {
     borderWidth: 0,

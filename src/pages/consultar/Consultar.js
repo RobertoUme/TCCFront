@@ -8,10 +8,40 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import api from "../../services/api";
 export default function Consultar({ navigation, route }) {
+  const [val, setVal] = useState(1);
+  const [visualizacao, setInv] = useState(0);
   const { nome } = route.params;
   const { tipo } = route.params;
   const { descricao } = route.params;
+  const { _id } = route.params;
+  const { profissional } = route.params;
+
+  async function handleocult() {
+    try {
+      const response = await api.put(`/service/${_id}`, {
+        profissional,
+        tipo,
+        descricao,
+        visualizacao,
+      });
+      alert("Ocultado com sucesso");
+      navigation.navigate("GServicos");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
+  async function handleExcluir() {
+    try {
+      const response = await api.delete(`/service/${_id}`);
+      alert("Excluído com sucesso");
+      navigation.navigate("GServicos");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
+
 
   return (
     <View style={styles.top}>
@@ -19,10 +49,15 @@ export default function Consultar({ navigation, route }) {
         colors={["#9ddaff", "#ebbcff"]}
         style={{ flex: 1, alignItems: "center" }}
       >
-        <Text style={styles.text}>{tipo}</Text>
-        <Text style={styles.text}>{nome}</Text>
-        <Text style={styles.texti}>{descricao}</Text>
-        <TouchableOpacity style={styles.botao}>
+        <Text style={styles.texti}>
+          Serviço: {tipo}
+          {"\n"}
+          {"\n"}
+          Profissional: {nome} {"\n"}
+          {"\n"}
+          Descrição: {descricao}
+        </Text>
+        <TouchableOpacity style={styles.botao} onPress={handleocult}>
           <Text
             style={{
               color: "white",
@@ -34,7 +69,7 @@ export default function Consultar({ navigation, route }) {
             Ocultar Dados
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao}  onPress={handleExcluir}>
           <Text
             style={{
               color: "white",
@@ -79,17 +114,21 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    padding: 10,
+    color: "#39076A",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   texti: {
-    height: "15%",
+    height: "40%",
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    padding: 10,
     color: "#39076A",
     fontSize: 16,
-    //fontFamily: ' sans-serif ',
     fontWeight: "bold",
   },
   botao: {

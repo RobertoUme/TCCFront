@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import api from "../../services/api";
-import Serv from "../../components/Servicos/index";
+import Serv from "../../components/AllS/index";
 
 export default function GServ({ navigation: { navigate } }) {
   const [servicos, setServicos] = useState([]);
 
   useEffect(() => {
     async function loadServicos() {
-      const response = await api.get("/allservice");
+      const response = await api.get("/service");
       setServicos(response.data);
     }
     loadServicos();
@@ -25,19 +25,23 @@ export default function GServ({ navigation: { navigate } }) {
           servicos.map((servicos) => (
             <TouchableOpacity
               style={styles.Pessoa}
+              key={servicos._id}
               onPress={() =>
                 navigate("Consultar", {
                   nome: servicos.profissional.nome,
+                  profissional: servicos.profissional._id,
                   tipo: servicos.tipo,
                   descricao: servicos.descricao,
+                  _id: servicos._id,
                 })
               }
             >
-              <Serv
-                key={servicos.profissional.nome}
+              <Serv 
                 nome={servicos.profissional.nome}
                 tipo={servicos.tipo}
+                vizu={servicos.visualizacao}
               />
+
             </TouchableOpacity>
           ))}
       </LinearGradient>
@@ -52,24 +56,22 @@ const styles = StyleSheet.create({
   Pessoa: {
     borderWidth: 0,
     width: "89%",
-    height: 52,
-    padding: "5%",
+    height: 64,
+    padding: "3%",
     backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
     display: "flex",
     marginTop: "2%",
+    
   },
   Logo: {
     width: 20,
     height: 20,
-    marginRight: "20px",
     alignSelf: "flex-start",
   },
   text: {
     color: "#39076A",
     fontSize: 18,
-    // fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",

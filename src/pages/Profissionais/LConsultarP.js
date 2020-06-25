@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import api from "../../services/api";
-import Prof from "../../components/Profissional/index";
+import P from "../../components/Profissional/index";
 
 export default function LConsultarP({ navigation: { navigate } }) {
-  const [profissional, setProfissional] = useState([]);
+  const [pro, setProfissional] = useState([]);
 
   useEffect(() => {
     async function loadProfissional() {
@@ -13,29 +13,30 @@ export default function LConsultarP({ navigation: { navigate } }) {
       setProfissional(response.data);
     }
     loadProfissional();
-  }, [profissional]);
+  }, [pro]);
   return (
     <View style={styles.top}>
       <LinearGradient
         colors={["#06A5F5", "#9E36FE"]}
         style={{ flex: 1, alignItems: "center", paddingTop: "5%" }}
       >
-        {profissional &&
-          profissional.map((profissional) => (
+        {pro &&
+          pro.map((pro) => (
             <TouchableOpacity
               style={styles.Pessoa}
+              key={pro._id}
               onPress={() =>
                 navigate("ConsultarP", {
-                  nome: profissional.nome,
-                  crp: profissional.crp,
-                  email: profissional.email,
-                  telefone: profissional.telefone,
-                  serv: profissional.serv,
-                  _id: profissional._id,
+                  name: pro.nome,
+                  crp: pro.crp,
+                  email: pro.email,
+                  telefone: pro.telefone,
+                  serv: pro.serv,
+                  _id: pro._id,
                 })
               }
             >
-              <Prof nome={profissional.nome} />
+              <P nome={pro.nome} />
             </TouchableOpacity>
           ))}
       </LinearGradient>
@@ -50,18 +51,16 @@ const styles = StyleSheet.create({
   Pessoa: {
     borderWidth: 0,
     width: "89%",
-    height: 52,
-    padding: "5%",
+    height: 60,
+    padding: "3%",
     backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
     display: "flex",
     marginTop: "2%",
   },
   Logo: {
     width: 20,
     height: 20,
-    marginRight: "20px",
     alignSelf: "flex-start",
   },
   text: {

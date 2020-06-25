@@ -17,24 +17,57 @@ export default function Perfil({ route, navigation }) {
       >
         <Image
           style={styles.Logo}
-          source={require("../../../assets/psycho-help.png")}
+          source={require("../../../assets/perfil/nome.png")}
         />
-        <Text style={styles.text}>IMAGEM TESTE</Text>
-        <View style={styles.texti}>
-          <Text style={styles.ctext}>
-            Profissional: <Text style={styles.stext}>{nome}</Text>
+        <Text style={styles.ctext}>{nome}</Text>
+        <View style={styles.container}>
+          <Text
+            style={{
+              color: "#39076A",
+              fontSize: 18,
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              paddingBottom: 10,
+              paddingTop: 17,
+              paddingLeft: 5,
+              alignSelf: "center",
+            }}
+          >
+            {tipo}
           </Text>
-          <Text style={styles.ctext}>
-            Serviço realizado: <Text style={styles.stext}>{tipo}</Text>
+          <View
+            style={{ borderWidth: 0.5, width: "70%", alignSelf: "center" }}
+          />
+          <Text style={styles.text}>
+            Contato:{"\n"}
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/tel.png")}
+            />
+            <Text style={styles.stext}> {telefone}</Text>
+            {"\n"}
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/arro.png")}
+            />
+            <Text style={styles.stext}> {email}</Text>
           </Text>
-          <Text style={styles.ctext}>
-            Telefone: <Text style={styles.stext}>{telefone}</Text>
-          </Text>
-          <Text style={styles.ctext}>
-            E-mail: <Text style={styles.stext}>{email}</Text>
-          </Text>
-          <Text style={styles.ctext}>
-            Descrição do serviço: <Text style={styles.stext}>{descricao}</Text>
+          <View
+            style={{
+              borderWidth: 0.5,
+              width: "70%",
+              alignSelf: "center",
+              marginTop: 5,
+            }}
+          />
+          <Text style={styles.text}>
+            Descrição do serviço:{"\n"}
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/doc.png")}
+            />
+            <Text style={styles.stext}> {descricao}</Text>
           </Text>
         </View>
       </LinearGradient>
@@ -47,50 +80,46 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Logo: {
-    width: 100,
-    height: 100,
+    width: 170,
+    height: 170,
     marginTop: "20%",
+  },
+  icone: {
+    width: 20,
+    height: 20,
   },
   text: {
     color: "#39076A",
     fontSize: 18,
     fontWeight: "bold",
     display: "flex",
-    alignItems: "center",
+    paddingBottom: 3,
+    paddingTop: 10,
+    paddingLeft: 5,
   },
   ctext: {
     color: "#39076A",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     display: "flex",
-    paddingLeft: 16,
-    paddingTop: 6,
+    paddingTop: 5,
+    paddingBottom: 10,
   },
   stext: {
     color: "#39076A",
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "bold",
     display: "flex",
+    paddingLeft: 10,
   },
-  texti: {
-    height: "40%",
+  container: {
+    height: "50%",
     borderColor: "white",
     borderWidth: 1,
-    width: "80%",
+    width: "82%",
     borderRadius: 8,
     marginTop: "5%",
     fontWeight: "bold",
     backgroundColor: "rgba(255, 255, 255, 0.18)",
-  },
-  botao: {
-    borderWidth: 0,
-    width: "80%",
-    height: "10%",
-    backgroundColor: "#A13CFE",
-    borderRadius: 10,
-    alignItems: "center",
-    display: "flex",
-    marginTop: "10%",
-    padding: 15,
   },
 });

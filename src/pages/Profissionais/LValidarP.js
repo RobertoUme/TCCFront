@@ -25,6 +25,7 @@ export default function LValidarP({ navigation: { navigate } }) {
           profissional.map((profissional) => (
             <TouchableOpacity
               style={styles.Pessoa}
+              key={profissional._id}
               onPress={() =>
                 navigate("ValidarProfissionais", {
                   nome: profissional.nome,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     width: "89%",
     height: 60,
-    padding: "4%",
+    padding: "3%",
     backgroundColor: "white",
     borderRadius: 10,
     display: "flex",
@@ -61,13 +62,11 @@ const styles = StyleSheet.create({
   Logo: {
     width: 20,
     height: 20,
-    marginRight: "20px",
     alignSelf: "flex-start",
   },
   text: {
     color: "#39076A",
     fontSize: 18,
-    // fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",

@@ -16,8 +16,9 @@ export default function CadastrarProfissionais({ navigation }) {
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
   const [serv, setServico] = useState("");
-  
+
   const [status, setStatus] = useState(0);
+
 
   async function handleSubmit() {
     try {
@@ -27,12 +28,13 @@ export default function CadastrarProfissionais({ navigation }) {
         email,
         telefone,
         serv,
-        status
+        status,
       });
-    alert("cadastrado com sucesso")
-        navigation.navigate("Home");
-      
-    } catch (err) {}
+      alert("cadastrado com sucesso");
+      navigation.navigate("Home");
+    } catch (err) {
+      console.log("Preencha todos os campos");
+    }
   }
 
   return (
@@ -45,44 +47,48 @@ export default function CadastrarProfissionais({ navigation }) {
 
         <TextInput
           style={styles.texti}
-          placeholder="Nome"
+          placeholder="Nome:"
           onChangeText={(nome) => setNome(nome)}
-          inlineImageLeft={"../../../assets/cabeca.png"}
-          placeholderTextColor="#311B92"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
           required="true"
         />
 
         <TextInput
           style={styles.texti}
-          placeholder="Número do CRP"
+          placeholder="Número do CRP:"
           onChangeText={(crp) => setCrp(crp)}
           keyboardType="number-pad"
-          placeholderTextColor="#311B92"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
         />
         <TextInput
           style={styles.texti}
-          placeholder="E-mail"
+          placeholder="E-mail:"
           onChangeText={(email) => setEmail(email)}
-          placeholderTextColor="#311B92"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
         />
         <TextInput
           style={styles.texti}
-          placeholder="Número de Contato"
+          placeholder="Número de Contato:"
           onChangeText={(telefone) => setTelefone(telefone)}
-          placeholderTextColor="#311B92"
+          keyboardType="number-pad"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
         />
         <TextInput
-          style={styles.texti}
-          placeholder="Descrição do serviço a ser realizado"
+          style={styles.textim}
+          numberOfLines={8}
+          placeholder="Descrição do serviço a ser realizado:"
+          textAlignVertical={"top"}
           onChangeText={(serv) => setServico(serv)}
-          placeholderTextColor="#311B92"
+          placeholderTextColor="rgba(49, 27, 146,0.45)"
         />
-        <TextInput
-          style={styles.texti}
-          placeholder="+ Foto"
-          placeholderTextColor="#311B92"
-        />
-
+        <Text style={styles.textaviso}>
+          Os dados serão verificados pelo administrador e caso sejam aprovados
+          será registrado um serviço em seu nome, em caso de dados inválidos o
+          cadastro pode ser cancelado!
+        </Text>
+        <Text style={styles.textaviso}>
+          Em caso de duvidas entre em contato no E-mail: ifms@edu.br.
+        </Text>
         <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
           <Text
             style={{
@@ -107,14 +113,22 @@ const styles = StyleSheet.create({
   text: {
     color: "#39076A",
     fontSize: 18,
-    //fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
     marginTop: "10%",
   },
+  textaviso: {
+    color: "#39076A",
+    fontSize: 14,
+    fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
+    marginTop: "2%",
+    marginHorizontal: 10,
+  },
   texti: {
-    height: 40,
+    height: 50,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
@@ -125,12 +139,13 @@ const styles = StyleSheet.create({
     color: "#3A076C",
   },
   textim: {
-    height: 120,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
+    fontWeight: "bold",
+    padding: 10,
   },
   botao: {
     borderWidth: 0,
@@ -140,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     display: "flex",
-    marginTop: "10%",
-    padding: 15,
+    marginTop: "5%",
+    padding: 25,
   },
 });

@@ -9,13 +9,18 @@ const Drawer = createDrawerNavigator();
 
 function Draw() {
   return (
-    <Drawer.Navigator drawerType="slide" initialRouteName="Home" drawerStyle={{
-      backgroundColor: '#3A076C',
-    }}drawerContentOptions={{
-      inactiveTintColor:"#fff",
-      activeTintColor: "#ffc4ff",
-      itemStyle: { marginVertical: 10, padding:10 },
-    }} >
+    <Drawer.Navigator
+      drawerType="slide"
+      initialRouteName="Home"
+      drawerStyle={{
+        backgroundColor: "#3A076C",
+      }}
+      drawerContentOptions={{
+        inactiveTintColor: "#fff",
+        activeTintColor: "#ffc4ff",
+        itemStyle: { marginVertical: 10, padding: 10 },
+      }}
+    >
       <Drawer.Screen name="Home" component={Home} />
 
       <Drawer.Screen name="Acessar como Administrador" component={Login} />

@@ -16,22 +16,22 @@ export default function GProfissionais({ navigation }) {
         style={{ flex: 1, alignItems: "center", paddingTop: "25%" }}
       >
         <TouchableOpacity onPress={navigateV} style={styles.botao}>
-          <Text style={styles.text}>
+          <View style={{ flexDirection: "row", paddingTop: 20 }}>
             <Image
               style={styles.Logo}
-              source={require("../../../assets/cabeca.png")}
+              source={require("../../../assets/lista.png")}
             />
-            Validar Profissionais
-          </Text>
+            <Text style={styles.text}>Validar Profissionais</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={navigateC} style={styles.botao}>
-          <Text style={styles.text}>
+          <View style={{ flexDirection: "row", paddingTop: 20 }}>
             <Image
               style={styles.Logo}
-              source={require("../../../assets/celular.png")}
+              source={require("../../../assets/lupa2.png")}
             />
-           Consultar Profissionais
-          </Text>
+            <Text style={styles.text}>Consultar Profissionais</Text>
+          </View>
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -49,21 +49,21 @@ const styles = StyleSheet.create({
     padding: "5%",
     backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
     display: "flex",
     marginTop: "10%",
   },
   Logo: {
     width: 70,
     height: 70,
-    marginRight: "50px",
+    marginRight: 10,
   },
   text: {
     color: "#39076A",
     fontSize: 18,
-   // fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
-    alignItems:"center"
+    alignItems: "center",
+    height: 100,
+    paddingTop: 20,
   },
 });

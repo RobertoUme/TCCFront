@@ -9,7 +9,7 @@ import {
   Text,
   Image,
   StyleSheet,
-  TextInput,
+  ActivityIndicator,
 } from "react-native";
 
 export default function ValidarProfissionais({ route, navigation }) {
@@ -32,10 +32,20 @@ export default function ValidarProfissionais({ route, navigation }) {
         status,
       });
       alert("Validado com sucesso");
-      navigation.navigate("LValidarP");
-    } catch (err) {}
+      navigation.navigate("GProfissionais");
+    } catch (err) {
+      console.log("ops");
+    }
   }
-
+  async function handleExcluir() {
+    try {
+      const response = await api.delete(`/profissional/${_id}`);
+      alert("Excluído com sucesso");
+      navigation.navigate("GProfissionais");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
   return (
     <View style={styles.top}>
       <LinearGradient
@@ -44,27 +54,68 @@ export default function ValidarProfissionais({ route, navigation }) {
       >
         <Image
           style={styles.Logo}
-          source={require("../../../assets/psycho-help.png")}
+          source={require("../../../assets/perfil/nome.png")}
         />
-        <Text style={styles.text}>IMAGEM TESTE</Text>
+
+        <Text style={styles.text}>{nome}</Text>
         <View style={styles.texti}>
-          <Text>Nome: {nome}</Text>
-          <Text>CRP: {crp}</Text>
-          <Text>Email: {email}</Text>
-          <Text>Telefone: {telefone}</Text>
-          <Text>Serviços a serem realizados: {serv}</Text>
+          <Text style={styles.dados}>
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/doc.png")}
+            />{" "}
+            Número do CRP: {crp}
+          </Text>
+          <Text style={styles.dados}>
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/tel.png")}
+            />{" "}
+            Telefone: {telefone}
+          </Text>
+          <Text style={styles.dados}>
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/arro.png")}
+            />{" "}
+            E-mail: {email}
+          </Text>
+          <Text style={styles.dados}>
+            <Image
+              style={styles.icone}
+              source={require("../../../assets/perfil/desc.png")}
+            />{" "}
+            Descrição do(s) serviço(s) a se realizar:
+          </Text>
+          <View
+            style={{
+              borderWidth: 0.5,
+              width: "70%",
+              alignSelf: "center",
+            }}
+          />
+          <Text style={styles.dados}>{serv}</Text>
         </View>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
           <Text
             style={{
               color: "white",
               fontSize: 18,
-              fontStyle: "Roboto",
               fontWeight: "bold",
             }}
-            onPress={handleSubmit}
           >
             VALIDAR
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.botao} onPress={handleExcluir}>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 18,
+              fontWeight: "bold",
+            }}
+          >
+            Recusar/Excluir
           </Text>
         </TouchableOpacity>
       </LinearGradient>
@@ -77,17 +128,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Logo: {
-    width: 100,
-    height: 100,
-    marginTop: "20%",
+    width: 140,
+    height: 140,
+    marginTop: "10%",
   },
   text: {
     color: "#39076A",
-    fontSize: 18,
-    // fontStyle: "Roboto",
+    fontSize: 22,
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
+  },
+  dados: {
+    color: "#39076A",
+    fontSize: 16,
+    fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
   },
   texti: {
     height: "40%",
@@ -98,7 +158,6 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#39076A",
     fontSize: 16,
-    // fontStyle: "Roboto",
     fontWeight: "bold",
   },
   botao: {
@@ -109,7 +168,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     display: "flex",
-    marginTop: "10%",
+    marginTop: "5%",
     padding: 15,
+  },
+  icone: {
+    width: 20,
+    height: 20,
   },
 });

@@ -1,6 +1,14 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+} from "react-native";
+import { useAuth } from "../../services/auth";
 
 export default function Opicao({ navigation }) {
   function NavigationToGP() {
@@ -9,6 +17,7 @@ export default function Opicao({ navigation }) {
   function NavigationToGS() {
     navigation.navigate("GServicos");
   }
+  const [, { logout }] = useAuth();
   return (
     <View style={styles.top}>
       <LinearGradient
@@ -16,21 +25,37 @@ export default function Opicao({ navigation }) {
         style={{ flex: 1, alignItems: "center", paddingTop: "25%" }}
       >
         <TouchableOpacity onPress={NavigationToGP} style={styles.botao}>
-          <Text style={styles.text}>
+          <View style={{ flexDirection: "row", paddingTop: 20 }}>
             <Image
               style={styles.Logo}
-              source={require("../../../assets/lista.png")}
+              source={require("../../../assets/cabeca.png")}
             />
-            Gerenciar Profissionais(mudar imagem)
-          </Text>
+            <Text style={styles.text}>Gerenciar Profissionais</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={NavigationToGS} style={styles.botao}>
-          <Text style={styles.text}>
+          <View style={{ flexDirection: "row", paddingTop: 20 }}>
             <Image
               style={styles.Logo}
-              source={require("../../../assets/lupa.png")}
+              source={require("../../../assets/celular.png")}
             />
-            Gerenciar Serviços(mudar imagem)
+            <Text style={styles.text}>Gerenciar Serviços</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.sair} onPress={logout}>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 20,
+              fontWeight: "bold",
+              padding: 2,
+            }}
+          >
+            Sair do Sistema   {''}
+            <Image
+              style={{ height: 20, width: 20 }}
+              source={require("../../../assets/logout.png")}
+            />
           </Text>
         </TouchableOpacity>
       </LinearGradient>
@@ -49,21 +74,32 @@ const styles = StyleSheet.create({
     padding: "5%",
     backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
     display: "flex",
     marginTop: "10%",
+  },
+  sair: {
+    borderWidth: 0,
+    width: "60%",
+    height: "12%",
+    padding: "5%",
+    backgroundColor: "#d60019",
+    borderRadius: 10,
+    display: "flex",
+    marginTop: "30%",
+    alignItems: "center",
   },
   Logo: {
     width: 70,
     height: 70,
-    marginRight: "50px",
+    marginRight: 10,
   },
   text: {
     color: "#39076A",
     fontSize: 18,
-    //fontStyle: "Roboto",
     fontWeight: "bold",
     display: "flex",
-    alignItems:"center"
+    alignItems: "center",
+    height: 100,
+    paddingTop: 20,
   },
 });
