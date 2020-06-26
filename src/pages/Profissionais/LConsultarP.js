@@ -5,6 +5,7 @@ import api from "../../services/api";
 import P from "../../components/Profissional/index";
 
 export default function LConsultarP({ navigation: { navigate } }) {
+  
   const [pro, setProfissional] = useState([]);
 
   useEffect(() => {

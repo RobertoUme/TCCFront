@@ -33,6 +33,7 @@ export default function GServ({ navigation: { navigate } }) {
                   tipo: servicos.tipo,
                   descricao: servicos.descricao,
                   _id: servicos._id,
+                  vi: servicos.visualizacao
                 })
               }
             >

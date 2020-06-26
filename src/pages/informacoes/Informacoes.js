@@ -3,8 +3,14 @@ import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-community/async-storage";
 export default function Informacoes({ navigation })  {
-    function NavigationToConsultar() {
-      navigation.navigate("Consultar");
+    function NavigationToob() {
+      navigation.navigate("ob");
+    }
+    function NavigationTooqe() {
+      navigation.navigate("oqe");
+    }
+    function NavigationToopa() {
+      navigation.navigate("opa");
     }
 
    
@@ -15,7 +21,7 @@ export default function Informacoes({ navigation })  {
         colors={["#06A5F5", "#9E36FE"]}
         style={{ flex: 1, alignItems: "center", paddingTop: "5%" }}
       >
-        <TouchableOpacity style={styles.botao}  >
+        <TouchableOpacity style={styles.botao}  onPress={NavigationTooqe} >
           <Text style={styles.text}>
             <Image
               style={styles.Logo}
@@ -24,7 +30,7 @@ export default function Informacoes({ navigation })  {
             O que é Ecopsicologia?
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={NavigationToob}>
           <Text style={styles.text}>
             <Image
               style={styles.Logo}
@@ -33,7 +39,7 @@ export default function Informacoes({ navigation })  {
             Origem da Ecopsicologia
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={NavigationToopa}>
           <Text style={styles.text}>
             <Image
               style={styles.Logo}

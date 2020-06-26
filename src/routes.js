@@ -15,6 +15,9 @@ import GServ from "./pages/gserv/GServ";
 import LConsultarP from "./pages/Profissionais/LConsultarP";
 import LValidarP from "./pages/Profissionais/LValidarP";
 import ConsultarP from "./pages/consultarp/ConsultarP";
+import ob from "./pages/text/Ob";
+import oqe from "./pages/text/Oeb";
+import opa from "./pages/text/opa";
 
 import Draw from "./routes/drawer.routes";
 import { StoreProvider, useStore } from "./services/store";
@@ -117,6 +120,21 @@ const Router = () => {
         <>
           <Stack.Screen name="Perfil" component={Perfil} />
           <Stack.Screen name="PSYCHO HELP" component={Draw} />
+          <Stack.Screen
+            options={{ title: "Origem" }}
+            name="ob"
+            component={ob}
+          />
+          <Stack.Screen
+            options={{ title: "O que é?" }}
+            name="oqe"
+            component={oqe}
+          />
+          <Stack.Screen
+            options={{ title: "Aplicações" }}
+            name="opa"
+            component={opa}
+          />
         </>
       )}
     </Stack.Navigator>

@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import api from "../../services/api";
 
-export default function ConsultarP({ route, navigation }) {
+export default function ConsultarP({ route, navigation}) {
+
   const { name } = route.params;
   const { crp } = route.params;
   const { email } = route.params;
   const { telefone } = route.params;
   const { serv } = route.params;
   const { _id } = route.params;
+
+  const [nome, setNome] = useState(name)
+  const [CRP, setCRP] = useState(crp)
+  const [em, setEm] = useState(email)
+  const [tel, setTel] = useState(telefone)
+  const [desc, setDesc] = useState(serv)
 
   async function handleExcluir() {
     try {
@@ -20,8 +34,22 @@ export default function ConsultarP({ route, navigation }) {
       console.log("ops");
     }
   }
-
-
+  async function handleSubmit() {
+    try {
+      const response = await api.put(`/profissional/${_id}`, {
+        nome,
+        crp:CRP,
+        email:em,
+        telefone:tel,
+        serv:desc,
+        status:1,
+      });
+      alert("Alterado com sucesso");
+      navigation.navigate("GProfissionais");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
   return (
     <View style={styles.top}>
       <LinearGradient
@@ -32,16 +60,12 @@ export default function ConsultarP({ route, navigation }) {
           style={styles.Logo}
           source={require("../../../assets/perfil/nome.png")}
         />
-        
-        <View style={styles.texti}>
-          <Text style={styles.dados}>Nome: {name}</Text>
-          <Text style={styles.dados}>E-mail: {email}</Text>
-          <Text style={styles.dados}>Número do CRP: {crp}</Text>
-          <Text style={styles.dados}>Telefone: {telefone}</Text>
-          <Text style={styles.dados}>Descrição do(s) serviço(s) a se realizar:{"\n"}
-           {serv}</Text>
-        </View>
-        <TouchableOpacity style={styles.botao}  onPress={handleExcluir} >
+        <TextInput style={styles.texti} value={nome}  onChangeText={(nome) => setNome(nome)}/>
+        <TextInput style={styles.texti} value={CRP?(JSON.stringify(CRP)):("")} keyboardType="number-pad" onChangeText={(CRP) => setCRP(parseInt(CRP))} />
+        <TextInput style={styles.texti} value={em}  onChangeText={(em) => setEm(em)} />
+        <TextInput style={styles.texti} value={tel?(JSON.stringify(tel)):("")} keyboardType="number-pad"  onChangeText={(tel) => setTel(parseInt(tel))} />
+        <TextInput style={styles.texti} value={desc}  onChangeText={(desc) => setDesc(desc)} />
+        <TouchableOpacity style={styles.botao} onPress={handleExcluir}>
           <Text
             style={{
               color: "white",
@@ -52,7 +76,10 @@ export default function ConsultarP({ route, navigation }) {
             Excluir Dados
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao} >
+        <TouchableOpacity
+          style={styles.botao}
+          onPress={handleSubmit}
+        >
           <Text
             style={{
               color: "white",
@@ -73,9 +100,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Logo: {
-    width: 150,
-    height: 150,
-    marginTop: "20%",
+    width: 130,
+    height: 130,
+    marginTop: "10%",
   },
   text: {
     color: "#39076A",
@@ -85,15 +112,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   texti: {
-    height: "30%",
+    height: 50,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
-    marginTop: "5%",
+    marginTop: "3%",
     color: "#39076A",
     fontSize: 16,
     fontWeight: "bold",
+    paddingLeft:6
   },
   botao: {
     borderWidth: 0,
@@ -112,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
-    paddingLeft:10,
-    paddingTop:5
+    paddingLeft: 10,
+    paddingTop: 5,
   },
 });

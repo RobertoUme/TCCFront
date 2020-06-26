@@ -8,15 +8,20 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import { Picker } from "@react-native-community/picker";
 import api from "../../services/api";
 export default function Consultar({ navigation, route }) {
-  const [val, setVal] = useState(1);
   const [visualizacao, setInv] = useState(0);
+  const [vizu, sets] = useState(1);
   const { nome } = route.params;
   const { tipo } = route.params;
   const { descricao } = route.params;
   const { _id } = route.params;
   const { profissional } = route.params;
+  const { vi } = route.params;
+
+  const [ti, setTipo] = useState(tipo);
+  const [desc, setDesc] = useState(descricao);
 
   async function handleocult() {
     try {
@@ -32,6 +37,20 @@ export default function Consultar({ navigation, route }) {
       console.log("ops");
     }
   }
+  async function handeaparece() {
+    try {
+      const response = await api.put(`/service/${_id}`, {
+        profissional,
+        tipo,
+        descricao,
+        visualizacao: vizu,
+      });
+      alert("Desocultado com sucesso");
+      navigation.navigate("GServicos");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
   async function handleExcluir() {
     try {
       const response = await api.delete(`/service/${_id}`);
@@ -41,35 +60,71 @@ export default function Consultar({ navigation, route }) {
       console.log("ops");
     }
   }
-
-
+  async function handlealt() {
+    try {
+      const response = await api.put(`/service/${_id}`, {
+        profissional,
+        tipo: ti,
+        descricao: desc,
+        visualizacao: vi,
+      });
+      alert("Ocultado com sucesso");
+      navigation.navigate("GServicos");
+    } catch (err) {
+      console.log("ops");
+    }
+  }
   return (
     <View style={styles.top}>
       <LinearGradient
         colors={["#9ddaff", "#ebbcff"]}
         style={{ flex: 1, alignItems: "center" }}
       >
-        <Text style={styles.texti}>
-          Serviço: {tipo}
-          {"\n"}
-          {"\n"}
-          Profissional: {nome} {"\n"}
-          {"\n"}
-          Descrição: {descricao}
+        <Text style={styles.nome}>
+        { nome }
         </Text>
-        <TouchableOpacity style={styles.botao} onPress={handleocult}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 18,
-              fontStyle: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            Ocultar Dados
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.botao}  onPress={handleExcluir}>
+        <TextInput
+          style={styles.texti}
+          value={ti}
+          onChangeText={(ti) => setTipo(ti)}
+        />
+        <TextInput
+          style={styles.text}
+          value={desc}
+          onChangeText={(desc) => setDesc(desc)}
+          multiline
+          numberOfLines={4}
+          textAlignVertical={"top"}
+        />
+        {vi == 1 ? (
+          <TouchableOpacity style={styles.botao} onPress={handleocult}>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontStyle: "Roboto",
+                fontWeight: "bold",
+              }}
+            >
+              Ocultar Dados
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.botao} onPress={handeaparece}>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontStyle: "Roboto",
+                fontWeight: "bold",
+              }}
+            >
+              Desocultar Dados
+            </Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity style={styles.botao} onPress={handleExcluir}>
           <Text
             style={{
               color: "white",
@@ -81,7 +136,7 @@ export default function Consultar({ navigation, route }) {
             Excluir Dados
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={handlealt}>
           <Text
             style={{
               color: "white",
@@ -108,28 +163,28 @@ const styles = StyleSheet.create({
     marginTop: "20%",
   },
   text: {
-    height: 40,
+    height: 120,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
     marginTop: "5%",
-    padding: 10,
+    padding: 6,
     color: "#39076A",
-    fontSize: 16,
     fontWeight: "bold",
+    fontSize: 16,
   },
   texti: {
-    height: "40%",
+    height: 50,
     borderColor: "white",
     borderWidth: 1,
     width: "80%",
     borderRadius: 8,
-    marginTop: "5%",
-    padding: 10,
+    marginTop: "3%",
     color: "#39076A",
     fontSize: 16,
     fontWeight: "bold",
+    paddingLeft: 6,
   },
   botao: {
     borderWidth: 0,
@@ -141,5 +196,19 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: "5%",
     padding: 15,
+  },
+  nome: {
+    height: 50,
+    borderColor: "white",
+    borderWidth: 1,
+    width: "80%",
+    borderRadius: 8,
+    marginTop: "3%",
+    color: "#39076A",
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingLeft: 6,
+    paddingTop:15,
+    backgroundColor: "rgba(255,255,255,0.4)"
   },
 });
